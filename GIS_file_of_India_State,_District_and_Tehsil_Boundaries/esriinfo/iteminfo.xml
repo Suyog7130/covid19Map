@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ESRI_ItemInformation Culture='en-IN'>
+<name>GIS file of India State, District and Tehsil Boundaries</name>
+<guid>9C8C0267-DB71-47C6-8C77-85DA3632B569</guid>
+<catalogpath></catalogpath>
+<snippet>Single source of GIS shapefiles of Indian states, districts and tehsils compiled by Planner Vijay Meena
+
+Note: For official purposes please cross-check boundaries with Government of India&apos;s Data.</snippet>
+<description>Single source of GIS shapefiles of Indian states, districts and tehsils compiled by Planner Vijay Meena
+
+Note: For official purposes please cross-check boundaries with Government of India&apos;s Data.</description>
+<summary>Single source of GIS shapefiles of Indian states, districts and tehsils compiled by Planner Vijay Meena
+
+Note: For official purposes please cross-check boundaries with Government of India&apos;s Data.</summary>
+<title>GIS file of India State, District and Tehsil Boundaries</title>
+<tags>India, India State, India Districts, India Tehsils, State, Districts, Tehsils, Boundaries, Boundary, Shapefile, Shp</tags>
+<type>Layer Package</type>
+<typekeywords>
+<typekeyword>File Geodatabase Feature Class</typekeyword>
+<typekeyword>Shapefile Feature Class</typekeyword>
+<typekeyword>Layer Package</typekeyword>
+<typekeyword>Data</typekeyword>
+<typekeyword>ArcMap</typekeyword>
+<typekeyword>ArcGlobe</typekeyword>
+<typekeyword>ArcGIS Explorer</typekeyword>
+<typekeyword>lpk</typekeyword>
+</typekeywords>
+<thumbnail>thumbnail/thumbnail.png</thumbnail>
+<documentation></documentation>
+<url></url>
+<datalastmodifiedtime></datalastmodifiedtime>
+<extent>
+<xmin>68.186248779297</xmin>
+<ymin>6.75425577163691</ymin>
+<xmax>97.4151611328126</xmax>
+<ymax>37.0970115665075</ymax>
+</extent>
+<spatialreference>WGS_1984_Web_Mercator_Auxiliary_Sphere</spatialreference>
+<accessinformation>Vijay Meena</accessinformation>
+<licenseinfo>Vijay Meena</licenseinfo>
+</ESRI_ItemInformation>
