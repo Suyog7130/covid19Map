@@ -228,6 +228,7 @@ def map_overlay (df, time):
     ax.text(0.05, 0.02, 'https://www.mygov.in/corona-data/covid19-statewise-status', transform=ax.transAxes, ha='left', va='center', fontsize=12)
     
     fig.savefig('covid19Map_' + toPlot + '_' + time + '.png', dpi=300)
+    fig.savefig('latestImage_' + toPlot + '.png', dpi=300)
     plt.show()
     plt.close()
     
