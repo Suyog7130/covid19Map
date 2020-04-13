@@ -463,3 +463,8 @@ Time: 12 April 2020, 17:00 GMT+5:30
 TotalScreened: 15,24,266
 Active Cases: 7409
 Dead: 764
+
+Time: 13 April 2020, 08:00 GMT+5:30
+TotalScreened: 15,24,266
+Active Cases: 7987
+Dead: 856
