@@ -143,13 +143,15 @@ def web_scraping ():
     #-- saving summary to a txt file --#
     print('\nTime: {0}\nTotalScreened: {1}\nActive Cases: {2}\nDead: {3}'.format(time, totalScreened, totalActive, totalCured, totalDead))
     with open('covid19_summary.txt', 'a') as f:
-        f.write('\nTime: {0}\nTotalScreened: {1}\nActive Cases: {2}\nDead: {3}\n'.format(time, totalScreened, totalActive, totalCured, totalDead))
+        f.write('\nTime: {0}\nTotalScreened: {1}\nActive Cases: {2}\nDead: {3}\nCured: {4}\n'.format(time, totalScreened, totalActive, totalDead, totalCured))
+
+    details = [time, totalActive, totalDead, totalCured]
     
-    return(df, time)
+    return(df, details)
     
 
 ##-- Overlaying on the Map --#
-def map_overlay (df, time):
+def map_overlay (df, details, toPlot):
     """
     The shapefiles for the maps of India are saved inside the folders present in the 
     Python folder. 'os.path' 
@@ -162,6 +164,8 @@ def map_overlay (df, time):
     
     To fill null values with 0, df.filna(0)
     """
+    
+    time, totalActive, totalDead, totalCured = details[0], details[1], details[2], details[3]
 
     path = '/media/suyog/DATA/Python/covid19Map'
     
@@ -205,7 +209,6 @@ def map_overlay (df, time):
     dfMerged = dfMerged.fillna(0)
     #print(dfMerged.head())
     
-    toPlot = input('\n\tWhich map do you want (Confirmed/Cured/Dead)?:\t')
     vmin, vmax = 0, dfMerged.loc[:, toPlot].max()
     
     #-- plotting the map --#
@@ -216,14 +219,21 @@ def map_overlay (df, time):
     
     if toPlot=='Confirmed':
         title = toPlot + ' Cases'
-    else:
+        total = totalActive
+    elif toPlot=='Dead':
         title = toPlot
+        total = totalDead
+    elif toPlot=='Cured':
+        title = toPlot
+        total = totalCured
     
     sm._A = []    #--this empties the array for the data range.
     cbar = fig.colorbar(sm, label='Number of ' + title)    #--adding the colorbar to the figure.
     
     ax.axis('off')
     ax.set_title(title, fontsize=15)
+    #ax.text(0.60, 0.85, title, transform=ax.transAxes, ha='left', va='center', fontsize=15)
+    ax.text(0.60, 0.8, 'Total = ' + total, transform=ax.transAxes, ha='left', va='center', fontsize=12)
     ax.text(0.05, 0.05, time, transform=ax.transAxes, ha='left', va='center', fontsize=12)
     ax.text(0.05, 0.02, 'https://www.mygov.in/corona-data/covid19-statewise-status', transform=ax.transAxes, ha='left', va='center', fontsize=12)
     
@@ -253,13 +263,21 @@ def map_overlay (df, time):
 ##-- Main Program --##
 if __name__=='__main__':
 
-    data, time = web_scraping()
+    data, details = web_scraping()
     ans = 'y'
     while ans=='y':
-        map_overlay(data, time)
-        ans = input('\n\tDo you want another map(y/n)?:\t')
-    
-    
+        try:
+            toPlot = input('\n\tWhich map do you want (Confirmed/Cured/Dead)?:\t')
+            map_overlay(data, details, toPlot)
+            ans = input('\n\tDo you want another map(y/n)?:\t')
+        except KeyError:
+            width = 30
+            message = 'Kindly give a valid input'.center(width, ' ')
+            print('\n\t\t'+'*'*(width+4))
+            print(f'\t\t**{message}**')
+            print('\t\t'+'*'*(width+4))
+            continue
+        
     
 
 #################### End of Program ##############################
