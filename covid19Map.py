@@ -50,6 +50,13 @@ can be used in the code. Right now, I ain't gonna do that.
 7th April 2020:
 Plotly can be used to make the interactive maps. 
 The 'go' in the plotly package is a library of graphical objects.
+
+16th April 2020:
+Shortened the if--elif statements where the renaming was done. 
+It was difficult to get the J&K counts not updated after once the counts of ladakh have been
+added to it. The state name should be changed right after updating the values or else after 
+each map the values get added up. When the state name is changed the if statement is not true
+any time later than this.
 """
 
 import os
@@ -203,14 +210,17 @@ def map_overlay (df, details, toPlot):
             df.loc[i, 'State'] = 'Telangana'
     """
     #-- adding ladakh count to J&K --#
-    df.loc['J & K', 'Confirmed'] = float(df[df.State=='J & K'].Confirmed) + float(df[df.State=='Ladakh'].Confirmed)
-    df.loc['J & K', 'Cured'] = float(df[df.State=='J & K'].Cured) + float(df[df.State=='Ladakh'].Cured)
-    df.loc['J & K', 'Dead'] = float(df[df.State=='J & K'].Dead) + float(df[df.State=='Ladakh'].Dead)
+    for i in range(len(df)):
+        if df.loc[i, 'State']=='J & K':   #--this is done only once, the next time this is not true.
+            df.loc[i, 'Confirmed'] = float(df[df.State=='J & K'].Confirmed) + float(df[df.State=='Ladakh'].Confirmed)
+            df.loc[i, 'Cured'] = float(df[df.State=='J & K'].Cured) + float(df[df.State=='Ladakh'].Cured)
+            df.loc[i, 'Dead'] = float(df[df.State=='J & K'].Dead) + float(df[df.State=='Ladakh'].Dead)
+            df.loc[i, 'State'] = 'Jammu & Kashmir'      
     
     #-- renaming the states --# 
     df = df.set_index('State')
     df.rename(index={'AndamanNicobar':'Andaman & Nicobar Island', 'AndhraPradesh':'Andhra Pradesh',
-                     'HimachalPradesh':'Himachal Pradesh', 'J & K':'Jammu & Kashmir', 'MP':'Madhya Pradesh',
+                     'HimachalPradesh':'Himachal Pradesh', 'MP':'Madhya Pradesh',
                      'Delhi':'NCT of Delhi', 'Arunachal Pradesh':'Arunanchal Pradesh',
                      'UttarPradesh':'Uttar Pradesh', 'TamilNadu':'Tamil Nadu', 'Telengana':'Telangana'
                      }, inplace='True')
@@ -221,7 +231,6 @@ def map_overlay (df, details, toPlot):
     
     dfMerged = dfMap.set_index('st_nm').join(df)
     dfMerged = dfMerged.fillna(0)
-    #print(dfMerged.head())
     
     vmin, vmax = 0, dfMerged.loc[:, toPlot].max()
     
@@ -278,6 +287,8 @@ def map_overlay (df, details, toPlot):
 if __name__=='__main__':
 
     data, details = web_scraping()
+    #map_overlay(data, details, 'Dead')
+    
     ans = 'y'
     while ans=='y':
         try:
