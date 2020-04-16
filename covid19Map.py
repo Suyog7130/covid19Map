@@ -175,6 +175,7 @@ def map_overlay (df, details, toPlot):
     dfMap = gpd.read_file(os.path.join(path, 'indiaMapStates', 'Indian_States.shp'))
     dfMap = dfMap.sort_values('st_nm')
     
+    """
     #-- renaming the state names --#
     for i in range(len(df)):
         if df.loc[i, 'State']=='AndamanNicobar':
@@ -200,12 +201,25 @@ def map_overlay (df, details, toPlot):
             df.loc[i, 'State'] = 'Tamil Nadu'
         elif df.loc[i, 'State']=='Telengana':
             df.loc[i, 'State'] = 'Telangana'
+    """
+    #-- adding ladakh count to J&K --#
+    df.loc['J & K', 'Confirmed'] = float(df[df.State=='J & K'].Confirmed) + float(df[df.State=='Ladakh'].Confirmed)
+    df.loc['J & K', 'Cured'] = float(df[df.State=='J & K'].Cured) + float(df[df.State=='Ladakh'].Cured)
+    df.loc['J & K', 'Dead'] = float(df[df.State=='J & K'].Dead) + float(df[df.State=='Ladakh'].Dead)
+    
+    #-- renaming the states --# 
+    df = df.set_index('State')
+    df.rename(index={'AndamanNicobar':'Andaman & Nicobar Island', 'AndhraPradesh':'Andhra Pradesh',
+                     'HimachalPradesh':'Himachal Pradesh', 'J & K':'Jammu & Kashmir', 'MP':'Madhya Pradesh',
+                     'Delhi':'NCT of Delhi', 'Arunachal Pradesh':'Arunanchal Pradesh',
+                     'UttarPradesh':'Uttar Pradesh', 'TamilNadu':'Tamil Nadu', 'Telengana':'Telangana'
+                     }, inplace='True')
     
     #df = data.drop(['State'], axis=1)
     #df.insert(1, 'State', pd.Series(dfMap.st_nm))
     #print(df)
     
-    dfMerged = dfMap.set_index('st_nm').join(df.set_index('State'))
+    dfMerged = dfMap.set_index('st_nm').join(df)
     dfMerged = dfMerged.fillna(0)
     #print(dfMerged.head())
     
