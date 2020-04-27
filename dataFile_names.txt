@@ -12,3 +12,14 @@ covid19Data_14 April 2020, 08:00 GMT+5:30.csv
 covid19Data_15 April 2020, 17:00 GMT+5:30.csv
 covid19Data_16 April 2020, 08:00 GMT+5:30.csv
 covid19Data_16 April 2020, 17:00 GMT+5:30.csv
+covid19Data_18 April 2020, 08:00 GMT+5:30.csv
+covid19Data_19 April 2020, 17:00 GMT+5:30.csv
+covid19Data_20 April 2020, 17:00 GMT+5:30.csv
+covid19Data_21 April 2020, 08:00 GMT+5:30.csv
+covid19Data_21 April 2020, 17:00 GMT+5:30.csv
+covid19Data_22 April 2020, 08:00 GMT+5:30.csv
+covid19Data_23 April 2020, 17:00 GMT+5:30.csv
+covid19Data_24 April 2020, 08:00 GMT+5:30.csv
+covid19Data_24 April 2020, 17:00 GMT+5:30.csv
+covid19Data_25 April 2020, 08:00 GMT+5:30.csv
+covid19Data_25 April 2020, 17:00 GMT+5:30.csv

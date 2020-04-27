@@ -72,7 +72,7 @@ def animateMap (fig, time, toPlot, maxCount):
     #-- merging the data with the geo dataframe --#
     dfMerged = dfMap.set_index('st_nm').join(df)
     dfMerged = dfMerged.fillna(0)
-    
+    print(df.loc['Jammu & Kashmir'].Confirmed)
     if toPlot=='Confirmed':
         title = toPlot + ' Cases'
     elif toPlot=='Dead':
@@ -98,8 +98,9 @@ def animateMap (fig, time, toPlot, maxCount):
     ax.text(0.05, 0.02, 'https://www.mygov.in/corona-data/covid19-statewise-status', transform=ax.transAxes, ha='left', va='center', fontsize=12)
     
     path = os.path.join(toPlot, time)
-    plt.savefig(path + '_' + toPlot + '.png', dpi=300)
+    #plt.savefig(path + '_' + toPlot + '.png', dpi=300)
     #plt.show()
+    plt.close()
     
     return ()
 
