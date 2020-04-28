@@ -72,7 +72,7 @@ def animateMap (fig, time, toPlot, maxCount):
     #-- merging the data with the geo dataframe --#
     dfMerged = dfMap.set_index('st_nm').join(df)
     dfMerged = dfMerged.fillna(0)
-    print(df.loc['Jammu & Kashmir'].Confirmed)
+
     if toPlot=='Confirmed':
         title = toPlot + ' Cases'
     elif toPlot=='Dead':
@@ -98,21 +98,22 @@ def animateMap (fig, time, toPlot, maxCount):
     ax.text(0.05, 0.02, 'https://www.mygov.in/corona-data/covid19-statewise-status', transform=ax.transAxes, ha='left', va='center', fontsize=12)
     
     path = os.path.join(toPlot, time)
-    #plt.savefig(path + '_' + toPlot + '.png', dpi=300)
+    plt.savefig(path + '_' + toPlot + '.png', dpi=300)
     #plt.show()
     plt.close()
-    
+
+    #print(dfMerged.Confirmed)
     return ()
 
 
 ##-- main Program --##
 if __name__=='__main__':
     
-    df0 = pd.read_csv('dataFile_names.txt', sep='\n', header=[-1])
+    df0 = pd.read_csv('dataFile_names.txt', sep='\n', header=None)
     df0.columns = ['file_name']
     fnames = df0.file_name.tolist()
     #print(fnames, len(fnames))
-    
+
     periods = []
     for f in fnames:
         periods.append(f[12:len(f)-4])   #--extracting the date and time of getting the data.
@@ -120,10 +121,11 @@ if __name__=='__main__':
     
     try:
         toPlot = input('\n\tWhich map do you want (Confirmed/Cured/Dead)?:\t')
-        maxCount = input('\tGive the value of max {} cases (Confirmed=3500, Dead=300):\t'.format(toPlot))
+        maxCount = input('\tGive the value of max {} cases (Confirmed=7500, Dead=300):\t'.format(toPlot))
         for p in periods:
             fig, ax = plt.subplots(figsize=(12, 12))
             animateMap(fig, p, toPlot, maxCount)
+
     except KeyError:
         width = 30
         message = 'Kindly give a valid input'.center(width, ' ')
