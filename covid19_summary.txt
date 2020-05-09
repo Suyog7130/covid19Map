@@ -923,3 +923,9 @@ TotalScreened: 15,24,266
 Active Cases: 37916
 Dead: 1886
 Cured: 16539
+
+Time: 09 May 2020, 08:00 GMT+5:30
+TotalScreened: 15,24,266
+Active Cases: 39834
+Dead: 1981
+Cured: 17846
