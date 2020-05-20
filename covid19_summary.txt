@@ -977,3 +977,9 @@ TotalScreened: 15,24,266
 Active Cases: 58802
 Dead: 3163
 Cured: 39173
+
+Time: 20 May 2020, 08:00 IST (GMT+5:30)
+TotalScreened: 15,24,266
+Active Cases: 61149
+Dead: 3303
+Cured: 42297
