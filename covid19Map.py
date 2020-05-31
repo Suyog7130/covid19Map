@@ -57,6 +57,10 @@ It was difficult to get the J&K counts not updated after once the counts of lada
 added to it. The state name should be changed right after updating the values or else after 
 each map the values get added up. When the state name is changed the if statement is not true
 any time later than this.
+
+31st May 2020:
+The confirmed cases are actually the positive cases that are ACTIVE now. 
+The actual number of confirmed cases till date will be confirmed+cured.
 """
 
 import os
