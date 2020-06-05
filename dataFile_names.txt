@@ -44,3 +44,4 @@ covid19Data_25 May 2020, 08:00 IST (GMT+5:30).csv
 covid19Data_26 May 2020, 08:00 IST (GMT+5:30).csv
 covid19Data_31 May 2020, 08:00 IST (GMT+5:30).csv
 covid19Data_04 June 2020, 08:00 IST (GMT+5:30).csv
+covid19Data_05 June 2020, 08:00 IST (GMT+5:30).csv
