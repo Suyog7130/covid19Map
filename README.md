@@ -1,47 +1,20 @@
-# COVID-19 India Map              
+# COVID-19 India Map and Bar Plot Race    
 
-### This code is to generate a map of COVID-19 case distribution in terms of number of Confirmed, Cured and Dead. 
+![](covid19_barPlotRace_Confirmed.gif)
+![](covid19_barPlotRace_Dead.gif)
 
-The data used is available at the following webpage: 
-https://www.mygov.in/corona-data/covid19-statewise-status 
+### The codes here are to generate maps and bar plots of COVID-19 case distribution in terms of number of Active, Cured and Dead cases. 
 
-The new libraries used are:
-- __Selenium__, a web testing library used to automate browser activity.
-- __BeautifulSoup__, Python package for parsing HTML and XML docs. It creates parse trees that is helpful to 
-extract the data easily.
-- __Geopandas__, an open source geographic data plotting library. It is primarily used to make choropleth maps.
+The repository contains 2 plain python codes, ```covid19Map.py```, ```covid19Animation.py``` and one jupyter notebook, ```covid19_barPlotRace.ipynb```. The first code produces the maps, the second combines these into a gif animation, while the code in the notebook produces the bar plot race shown above. The data used is available at the following webpage: 
+https://www.mygov.in/corona-data/covid19-statewise-status and has been extracted from it. 
 
-https://www.naturalearthdata.com/ is a public domain library of map data for the whole world. 
-For India, the data can be downloaded from https://www.diva-gis.org/gdata.
-There are numerous other places to download the data.
-The best one is: https://www.arcgis.com/home/item.html?id=cba8bddfa0ab43ddb35a7313376f9438.
+Whenever the code is run, the latest data is extracted from the static webpage. Chrome is used for opening the webpage before the data can be extracted. A separate webdriver is required for this which can be downloaded from (https://chromedriver.chromium.org/). The concaneted data is saved in ```covid19_concatenatedData.csv```
 
-The following the steps were taken to obtain the map:
+__Selenium__, __BeautifulSoup__ and __Geopandas__ are used to create the maps. __imagemagick__ writer in jupyter notebook with __jshtml__ plugin helps in the generation of the bar plot race. This dynamic bar plot illustrates Top 5 adversely affected Indian States between a period of April 6th to June 5th, 2020. 
 
-   1. Finding an accurate government source for the data.
-   2. Writing the code to do the web scraping. This is done using selenium and BeautifulSoup. 
-   3. Making a pandas table and checking if the data scraped is indeed
-      correct. 
-   4. Getting a hang of how the geographical data is saved in gis file formats like the shapefiles (.shp).
-   5. Generating a map of India with state boundaries. 
-   6. Writing the code ot overlay the data scraped from the website onto generated map. This is done used geopandas.
-   7. Finally, asking the user for the type of map. 
-      Checking how the updation of the website affects this.
-      
-For the map used in the code, the gis file can obtained from this Google Drive [link](https://drive.google.com/open?id=1Hv9pES2FWrj6xOcQazKb5Mgt2ZqveMPS). 
-
-The extracted data from the webpage is saved into a csv file: [covid19Data](https://github.com/Suyog7130/covid19Map/blob/master/covid19Data_07%20April%202020%2C%2009:00%20GMT%2B5:30.csv). The output map is saved as a png image. [covid19_summary.txt](https://github.com/Suyog7130/covid19Map/blob/master/covid19_summary.txt) contains the overall summary of the number of cases for all the times that the code has been run.
-
-Whenever the code is run, the latest data is extracted from the webpage. This webpage is static, so __*lxml*__ extracts a html page when the code is run and not a javascript file. I use chrome for opening the webpage before the data can be extracted. A separate webdriver is required for this which can be downloaded from (https://chromedriver.chromium.org/).
+The map showing the count of Dead from last run of the code is given below. 
+![](latestImage_Dead.png)
 
 <!--- Another program can be written which will automate the running of this code, so that the variation of the geographic distribution can be monitored continously. Other types of overlayes can also done on the geographic maps, for instance, bubble maps. They can be made interactive using packages like plotly. The awesome interactive map on the [WHO dashboard](https://who.sprinklr.com/) is one such tool. <!--- which uses their own proprietry programs to generate the plots. -->
 
 [comment]: # (This is a comment)
-
-<!--- I didn't do this because the state or territorial map of India is not available within the plotly library. Nor any other open source geographical data is available, which can be used to get the interactive plot, apart from GeoJSON that is and it's gonna take me a while learn using that. --->
-      
-The latest maps generated in the last run of the is given below. 
-
-![Dead](https://github.com/Suyog7130/covid19Map_localSync/blob/master/latestImage_Dead.png)
-
-<!--- ![Confirmed Cases](https://github.com/Suyog7130/covid19Map/blob/master/gimp_Confirmed.gif) --->
