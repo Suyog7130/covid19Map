@@ -1,33 +1,3 @@
-
-########################################################
-###             COVID-19 India Animation             ###
-########################################################
-
-"""
-16th April 2020:
-This code is for making an animation of the map overlay for the 
-time period for which I have collected the data.
-
-I don't how the attribute for which count has to be plotted can be passed
-to the animateMap function. Let's see!
-The above is easy, can be done using fwargs attribute in funcAnimate.
-
-However, I think that sorta animation is only possible for some matplotlib 
-plot object and not for the maps. Or it is possible when all the different 
-time period data is available in different columns of a single dataframe. 
-
-Yeah! I can do this sometime later. Can have three different dataframes for
-Confirmed, Dead and Cured, with different columns having the said count for 
-all the dates. That would be good. Then perhaps, this can be made use of.
-
-Right now, I gonna make a gif by stitching the png images together. 
-
-NOTE:
-This error comes when the plt.show() is run and plt.savefig is.
-/home/suyog/.local/lib/python3.6/site-packages/matplotlib/backends/backend_gtk3.py:195: Warning: Source ID 21 was not found when attempting to remove it
-  GLib.source_remove(self._idle_draw_id)
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -132,14 +102,6 @@ if __name__=='__main__':
         print('\n\t\t'+'*'*(width+4))
         print(f'\t\t**{message}**')
         print('\t\t'+'*'*(width+4))
-
-    """
-    fig, ax = plt.subplots(figsize=(12, 12))
-    animator = animation.FuncAnimation(fig, animateMap, frames=periods)
-    HTML(animator.to_jshtml())
-    HTML(animator.to_html5_video())
-    animator.save()
-    """
 
 #################### End of Program ##############################
 ##################################################################
