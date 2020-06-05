@@ -1,68 +1,3 @@
-
-########################################################
-###                  COVID-19 India Map              ###
-########################################################
-
-"""
-5th and 6th April 2020:
-This is to do the web scraping and make the gis map of India
-with the COVID-19 casualities bubbles overlayed. 
-
-The Webpage used is available at: 
-https://www.mygov.in/corona-data/covid19-statewise-status 
-
-Gonna tackle this in steps. The following the things:
-
-   1. Finding out how data is taken from some website. 
-   2. Writing the code to do the web scraping; getting the correct 
-      data.
-   3. Making a pandas table and checking if the data scraped is indeed
-      correct. 
-   4. Getting a hang of follium and how the GIS system works.
-   5. Making a map of India with the state names and all that. 
-   6. Writing the code for the using the follium to overlay the info
-      obtained onto the map of India.
-   7. Seemlessly merging the two. Saving the data and the plot. 
-      Checking how the updation of the website affects this.
-      
-The new libraries used are Selenium, a web testing library used to automate 
-browser activity and BeautifulSoup, Python package for parsing HTML and XML 
-docs. It creates parse trees that is helpful to extract the data easily.
-
-NOTE: When copying the files, if some permission is denied then 'nautilus' 
-can be used to open the folders in the admin mode. 
-'sudo -H nautilus'
-
-The comments within the functions are just the things I wasn't able to get right.
-This webpage is static, so that a html doc is returned by lxml and not a javascript file.
-
-https://www.naturalearthdata.com/ is a public domain library of map data for the whole world. 
-For India, the data can be downloaded from 'https://www.diva-gis.org/gdata'
-There are numerous other places to download the data.
-The best one is: 'https://www.arcgis.com/home/item.html?id=cba8bddfa0ab43ddb35a7313376f9438'.
-
-This data is saved in the form of a shapefile, format '.shp'.
-This can be used alongwith geopandas, basemap and geoplot to make the map. Goepandas primarily 
-eases making the choropleth maps.
-To have it interactive or have a choropleth map, other libraries like bokeh and json
-can be used in the code. Right now, I ain't gonna do that.
-
-7th April 2020:
-Plotly can be used to make the interactive maps. 
-The 'go' in the plotly package is a library of graphical objects.
-
-16th April 2020:
-Shortened the if--elif statements where the renaming was done. 
-It was difficult to get the J&K counts not updated after once the counts of ladakh have been
-added to it. The state name should be changed right after updating the values or else after 
-each map the values get added up. When the state name is changed the if statement is not true
-any time later than this.
-
-31st May 2020:
-The confirmed cases are actually the positive cases that are ACTIVE now. 
-The actual number of confirmed cases till date will be confirmed+cured.
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -72,48 +7,9 @@ from bs4 import BeautifulSoup
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
-#import plotly.plotly as py
-#import plotly.graph_objs as go 
-#from plotly.offline import download_plotlyjs, plot, iplot  
-
 ##-- Getting the Data from webpage --##
 def web_scraping (): 
 
-    """
-    I could have used this, driver = webdriver.Chrome(executable_path='chromedriver.exe') at the start.
-    driver = webdriver.Chrome(executable_path='/usr/lib/chromedriver') #("/path/to/chromedriver")    
-
-    driver.get("https://www.mygov.in/corona-data/covid19-statewise-status")
-    #content = driver.page_source
-    soup = BeautifulSoup(driver.page_source, 'lxml')
-    
-    #field field-name-field-covid-statewise-data field-type-field-collection field-lable-above.
-    #'div', href=True, attrs={'class':'content'}
-    """
-    """ 
-    Different classes present on the webpage are, 'field-items', 'field-item even', 'field-item odd',
-    'content' etc. 
-    The main table is inside id, 'block-system-main' under class, 'content clearfix'.
-    I can look up for the content class for each row of the table.
-    Each 'content' corresponds to a row of the table. Each row has four 'field-items' classes.
-    
-    By chance, the first few subtitle lines are all contained in the first row that is taken out. 
-    The contents of the first row are then copied to the second row as well, prob. because of another
-    'content'. The actual table with the count of cases comes after that, i.e. from 3rd row.
-    """
-    """
-    result = soup.find(id='block-system-main')    #--the main table.
-    x = result.findAll(class_='content')   #--contains the rows of the table.
-    
-    #print(len(x), x[0])
-    
-    for i in x:   #--for each row.
-        fields = i.findAll(class_='field-items')   #--items of each row. Number of items varies.
-        print(fields[4].text, fields[6].text)
-        #print('{0} & {1} & {2} & {3}'.format(fields[0].text, fields[1].text, fields[2].text, fields[3].text))
-    #print(len(fields))
-    """
-    
     state, confirmed, cured, dead = [], [], [], []
     
     #-- opening the webpage --#
@@ -163,19 +59,7 @@ def web_scraping ():
 
 ##-- Overlaying on the Map --#
 def map_overlay (df, details, toPlot):
-    """
-    The shapefiles for the maps of India are saved inside the folders present in the 
-    Python folder. 'os.path' 
-    The two data files are first joined together and then the the geopandas library is 
-    used to map out the data. 
-    To have a consistent seamless naming, the dataframes are sorted in the alphabetical 
-    order first and the state names from one are then copied to the other. This copying 
-    is done using 'df.drop' and 'df.insert(axis, column_name, df_Series)'
-    Alas! These didn't work properly. 
-    
-    To fill null values with 0, df.filna(0)
-    """
-    
+   
     time, totalActive, totalDead, totalCured = details[0], details[1], details[2], details[3]
 
     path = '/media/suyog/DATA/Python/covid19Map'
@@ -185,34 +69,7 @@ def map_overlay (df, details, toPlot):
     
     dfMap = gpd.read_file(os.path.join(path, 'indiaMapStates', 'Indian_States.shp'))
     dfMap = dfMap.sort_values('st_nm')
-    
-    """
-    #-- renaming the state names --#
-    for i in range(len(df)):
-        if df.loc[i, 'State']=='AndamanNicobar':
-            df.loc[i, 'State'] = 'Andaman & Nicobar Island'
-        elif df.loc[i, 'State']=='AndhraPradesh':
-            df.loc[i, 'State'] = 'Andhra Pradesh'
-        elif df.loc[i, 'State']=='HimachalPradesh':
-            df.loc[i, 'State'] = 'Himachal Pradesh'
-        elif df.loc[i, 'State']=='J & K':    #--adding the ladakh count.
-            df.loc[i, 'Confirmed'] = float(df[df.State=='J & K'].Confirmed) + float(df[df.State=='Ladakh'].Confirmed)
-            df.loc[i, 'Cured'] = float(df[df.State=='J & K'].Cured) + float(df[df.State=='Ladakh'].Cured)
-            df.loc[i, 'Dead'] = float(df[df.State=='J & K'].Dead) + float(df[df.State=='Ladakh'].Dead)
-            df.loc[i, 'State'] = 'Jammu & Kashmir'
-        elif df.loc[i, 'State']=='MP':
-            df.loc[i, 'State'] = 'Madhya Pradesh'
-        elif df.loc[i, 'State']=='Delhi':
-            df.loc[i, 'State'] = 'NCT of Delhi'
-        elif df.loc[i, 'State']=='Arunachal Pradesh':
-            df.loc[i, 'State'] = 'Arunanchal Pradesh'
-        elif df.loc[i, 'State']=='UttarPradesh':
-            df.loc[i, 'State'] = 'Uttar Pradesh'
-        elif df.loc[i, 'State']=='TamilNadu':
-            df.loc[i, 'State'] = 'Tamil Nadu'
-        elif df.loc[i, 'State']=='Telengana':
-            df.loc[i, 'State'] = 'Telangana'
-    """
+   
     #-- adding ladakh count to J&K --#
     for i in range(len(df)):
         if df.loc[i, 'State']=='J & K':   #--this is done only once, the next time this is not true.
@@ -268,22 +125,7 @@ def map_overlay (df, details, toPlot):
     fig.savefig('latestImage_' + toPlot + '.png', dpi=300)
     plt.show()
     plt.close()
-    
-    """
-    Nope this cannot be done. The scope available is either the world, us or continents.
-    #-- plotting an interactive map --#
-    dataToPlot = dict(type='choropleth',
-                      locations = dfMerged.index,
-                      locationmode = 'USA-states',
-                      colorscale = 'YlOrBr',
-                      text = toPlot,
-                      z = dfMerged[toPlot],
-                      colorbar = {'title':'Number of ' + title})
-    layout = dict(title = title, geo = {'scope':'asia'})
-    choromap = go.Figure(data = [dataToPlot], layout = layout)  #--makes the plot.
-    iplot(choromap)    #--generates the interactive plot.
-    """
-    
+   
     return()
     
     
